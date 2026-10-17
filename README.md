@@ -4,7 +4,7 @@ Report a GitHub Actions result as a check on a Riff change. Use `if: always()` s
 
 ```yaml
 - if: always() && github.event.client_payload.change != 0
-  uses: dataplatformsolutions/riff-report@v1
+  uses: dataplatformsolutions/report@v1
   with:
     server: ${{ vars.RIFF_SERVER }}
     repo: ${{ github.event.client_payload.repo }}
