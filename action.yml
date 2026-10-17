@@ -1,0 +1,51 @@
+name: Riff report
+description: Report a GitHub Actions result as a check on a Riff change
+inputs:
+  server:
+    description: Riff server root URL
+    required: true
+  repo:
+    description: Riff repository name
+    required: true
+  change:
+    description: Riff change number
+    required: false
+  revision:
+    description: Exact Riff revision checked by this job
+    required: true
+  status:
+    description: Check result (success, failure, cancelled, or pending)
+    required: true
+  name:
+    description: Check name shown in Riff
+    required: false
+    default: ci/test
+  summary:
+    description: Short result summary
+    required: false
+  url:
+    description: Link to the CI run; defaults to this GitHub Actions run
+    required: false
+  token:
+    description: Riff bearer token
+    required: false
+  riff-binary-url:
+    description: Optional URL to download the riff executable from
+    required: false
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        ACTION_PATH: ${{ github.action_path }}
+        INPUT_SERVER: ${{ inputs.server }}
+        INPUT_REPO: ${{ inputs.repo }}
+        INPUT_CHANGE: ${{ inputs.change }}
+        INPUT_REVISION: ${{ inputs.revision }}
+        INPUT_STATUS: ${{ inputs.status }}
+        INPUT_NAME: ${{ inputs.name }}
+        INPUT_SUMMARY: ${{ inputs.summary }}
+        INPUT_URL: ${{ inputs.url }}
+        INPUT_TOKEN: ${{ inputs.token }}
+        INPUT_RIFF_BINARY_URL: ${{ inputs.riff-binary-url }}
+      run: bash "$ACTION_PATH/report.sh"
